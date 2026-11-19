@@ -45,9 +45,9 @@ status-website:
   introMessage: Live status of the Rushify web app, API and realtime service.
   navbar:
     - title: Status
-      url: ./
+      href: ./
     - title: rushify.app
-      url: https://rushify.app
+      href: https://rushify.app
 
 # Checks every 5 minutes (the Upptime default; public repos have unlimited Actions minutes).
 workflowSchedule:
