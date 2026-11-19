@@ -1,31 +1,54 @@
-# Change these first
-owner: upptime # Your GitHub organization or username, where this repository lives
-repo: upptime # The name of this repository
+# Upptime config for the public status page repo rushify-app/rushify-status (observability.md
+# "Status page"). That repo is created from the Upptime template (github.com/upptime/upptime) and
+# holds no code or secrets; copy this file to its root as `.upptimerc.yml`.
+#
+# Version: upptime/uptime-monitor v1.46.5 (released 2026-10-25). Upptime has no config key for the
+# version: the template's "Setup CI" / "Update Template CI" workflows write
+# `uses: upptime/uptime-monitor@<latest release>` into every generated workflow. To hold v1.46.5:
+#   1. after the first Setup CI run, set every `upptime/uptime-monitor@...` in .github/workflows/
+#      to `@v1.46.5` (the generated files say "Do not edit"; this is the one deliberate edit);
+#   2. disable the "Update Template CI" and "Updates CI" workflows (`gh workflow disable`), which
+#      would otherwise move it to the latest release every night;
+#   3. bump the pin by hand, to a release at least two weeks old, and update this comment.
+#
+# Notifications go to the same channels as the other alerts (email, Slack, Discord, Telegram). They
+# are repository secrets of rushify-status, never values in this file (names only):
+#   NOTIFICATION_SLACK=true, NOTIFICATION_SLACK_WEBHOOK_URL       (the ALERT_SLACK_WEBHOOK_URL value)
+#   NOTIFICATION_DISCORD_WEBHOOK_URL                              (the ALERT_DISCORD_WEBHOOK_URL value)
+#   NOTIFICATION_TELEGRAM=true, NOTIFICATION_TELEGRAM_BOT_KEY,
+#   NOTIFICATION_TELEGRAM_CHAT_ID                                 (the ALERT_TELEGRAM_* values)
+#   NOTIFICATION_EMAIL=true, NOTIFICATION_EMAIL_FROM, NOTIFICATION_EMAIL_TO (the ALERT_EMAIL_TO value)
+#     plus one provider, e.g. NOTIFICATION_EMAIL_SMTP=true, NOTIFICATION_EMAIL_SMTP_HOST,
+#     NOTIFICATION_EMAIL_SMTP_PORT, NOTIFICATION_EMAIL_SMTP_USERNAME, NOTIFICATION_EMAIL_SMTP_PASSWORD
+#   GH_PAT                                                        (Upptime's own token)
+owner: rushify-app
+repo: rushify-status
 
 sites:
-  - name: Google
-    url: https://www.google.com
-  - name: Wikipedia
-    url: https://en.wikipedia.org
-  - name: Hacker News
-    url: https://news.ycombinator.com
-  - name: Secret Site
-    url: $SECRET_SITE
+  - name: Web app
+    url: https://rushify.app
+  - name: API
+    url: https://api.rushify.app/health
+    # 503 means a dependency is down: the API answers, but degraded.
+    expectedStatusCodes: [200]
+  - name: Realtime
+    url: https://rt.rushify.app/health
+    expectedStatusCodes: [200]
+
+assignees: []
 
 status-website:
-  # Add your custom domain name, or remove the `cname` line if you don't have a domain
-  # Uncomment the `baseUrl` line if you don't have a custom domain and add your repo name there
-  cname: demo.upptime.js.org
-  # baseUrl: /your-repo-name
-  logoUrl: https://raw.githubusercontent.com/upptime/upptime.js.org/master/static/img/icon.svg
-  name: Upptime
-  introTitle: "**Upptime** is the open-source uptime monitor and status page, powered entirely by GitHub."
-  introMessage: This is a sample status page which uses **real-time** data from our [GitHub repository](https://github.com/upptime/upptime). No server required — just GitHub Actions, Issues, and Pages. [**Get your own for free**](https://github.com/upptime/upptime)
+  # Set `cname` when the status page gets its own domain (e.g. status.rushify.app).
+  baseUrl: /rushify-status
+  name: Rushify status
+  introTitle: Rushify status
+  introMessage: Live status of the Rushify web app, API and realtime service.
   navbar:
     - title: Status
-      href: /
-    - title: GitHub
-      href: https://github.com/$OWNER/$REPO
+      url: ./
+    - title: rushify.app
+      url: https://rushify.app
 
-# Upptime also supports notifications, assigning issues, and more
-# See https://upptime.js.org/docs/configuration
+# Checks every 5 minutes (the Upptime default; public repos have unlimited Actions minutes).
+workflowSchedule:
+  uptime: "*/5 * * * *"
